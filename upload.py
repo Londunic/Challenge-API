@@ -1,5 +1,7 @@
 from database import db_connection
 import csv
+import pandas as pd
+import numpy as np
 
 def upload_data(file,table,value):
 
@@ -12,6 +14,12 @@ def upload_data(file,table,value):
         csv_data = file.read().decode('utf-8')
         data = list(csv.reader(csv_data.splitlines()))
 
+        #Convert data to Dataframe and change empty to NUll
+        df = pd.DataFrame(data,columns=None)
+        df = df.applymap(lambda x: None if x == '' else x)
+        df = df[df[1].notnull()]
+        data2 = df.values.tolist()
+
         # Connect to the database
         connection = db_connection()
 
@@ -23,7 +31,7 @@ def upload_data(file,table,value):
         else:
             query = "INSERT INTO "+table+" (id,name) VALUES (%s,%s)"
     
-        cursor.executemany(query, data)
+        cursor.executemany(query, data2)
         connection.commit()
 
         cursor.close()
