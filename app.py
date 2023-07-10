@@ -1,4 +1,5 @@
 from flask import Flask, request
+from database import db_connection
 
 app = Flask(__name__)
 
