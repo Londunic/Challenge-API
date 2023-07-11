@@ -1,4 +1,6 @@
-# Challenge-API
+# Challenge
+
+## API
 
 This is a Local Rest API created for DB migration, this API allows:
 
@@ -53,4 +55,32 @@ py app.py
 curl -X POST -F "file=@C:\path of the project file\data\departments.csv" http://127.0.0.1:5000/upload_deps
 curl -X POST -F "file=@C:\path of the project file\data\jobs.csv" http://127.0.0.1:5000/upload_jobs
 curl -X POST -F "file=@C:\path of the project file\data\hired_employees.csv" http://127.0.0.1:5000/upload_emp
+```
+
+## SQL
+
+### Query 1
+this query results in the number of employees hired for each job and department in 2021 divided by quarter. The result is ordered alphabetically by department and job. To see the result, write in your terminal:
+```
+curl http://127.0.0.1:5000/sql_query1
+```
+This query is created with the following SQL code:
+```
+SELECT 
+    d.name AS department,
+    j.name AS job,
+    COUNT(CASE WHEN MONTH(e.date_time) BETWEEN 1 AND 3 THEN 1 END) AS 'Q1',
+    COUNT(CASE WHEN MONTH(e.date_time) BETWEEN 4 AND 6 THEN 1 END) AS 'Q2',
+    COUNT(CASE WHEN MONTH(e.date_time) BETWEEN 7 AND 9 THEN 1 END) AS 'Q3',
+    COUNT(CASE WHEN MONTH(e.date_time) BETWEEN 10 AND 12 THEN 1 END) AS 'Q4'
+FROM
+    employees e
+    INNER JOIN departments d ON e.department_id = d.id
+    INNER JOIN jobs j ON e.job_id = j.id
+WHERE
+    YEAR(e.date_time) = 2021
+GROUP BY
+    department, job
+ORDER BY
+    department, job;
 ```
