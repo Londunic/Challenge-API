@@ -1,5 +1,6 @@
 from flask import Flask, request
 from upload import upload_data
+from batch_insert import insert_batch
 
 app = Flask(__name__)
 
@@ -40,17 +41,19 @@ def upload_emp():
 
 
 @app.route('/batch-insert-deps', methods=['POST'])
-def batch_insert():
+def batch_insert_deps():
     # Check if the request has a valid JSON payload
     if not request.is_json:
         return 'Invalid request payload', 400
 
     try:
         data = request.get_json()
-        ##
+        return insert_batch(data,"departments","other")
 
     except Exception as e:
         return str(e), 500
+
+
 
 @app.route('/')
 def hello():

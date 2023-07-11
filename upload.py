@@ -18,6 +18,7 @@ def upload_data(file,table,value):
         df = pd.DataFrame(data,columns=None)
         df = df.applymap(lambda x: None if x == '' else x)
         df = df[df[1].notnull()]
+        df = df.drop(df.columns[0], axis=1)
         data2 = df.values.tolist()
 
         # Connect to the database
@@ -27,9 +28,9 @@ def upload_data(file,table,value):
         cursor = connection.cursor()
         # Query
         if (value == "emp"):
-            query = "INSERT INTO "+table+" (id,name,date_time,department_id,job_id) VALUES (%s,%s,%s,%s,%s)"
+            query = "INSERT INTO "+table+" (name,date_time,department_id,job_id) VALUES (%s,%s,%s,%s)"
         else:
-            query = "INSERT INTO "+table+" (id,name) VALUES (%s,%s)"
+            query = "INSERT INTO "+table+" (name) VALUES (%s)"
     
         cursor.executemany(query, data2)
         connection.commit()
