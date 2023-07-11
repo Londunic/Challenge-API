@@ -84,3 +84,37 @@ GROUP BY
 ORDER BY
     department, job;
 ```
+
+### Query 2
+this query results in the list of ids, name and number of employees hired of each department that hired more
+employees than the mean of employees hired in 2021 for all the departments, ordered
+by the number of employees hired (descending). To see the result, write in your terminal:
+```
+curl http://127.0.0.1:5000/sql_query2
+```
+This query is created with the following SQL code:
+```
+SELECT
+    d.id AS id,
+    d.name AS department,
+    COUNT(e.id) AS hired
+FROM
+    departments d
+    INNER JOIN employees e ON e.department_id = d.id
+WHERE
+    YEAR(e.date_time) = 2021
+GROUP BY
+    id, department
+HAVING
+    COUNT(e.id) > (
+        SELECT AVG(count_emp)
+        FROM (
+            SELECT COUNT(e.id) AS count_emp
+            FROM employees e
+            WHERE YEAR(e.date_time) = 2021
+            GROUP BY e.department_id
+        ) AS sub
+    )
+ORDER BY
+	hired DESC;
+```
