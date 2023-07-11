@@ -43,3 +43,9 @@ CREATE TABLE employees (
 );
 ``` 
 - Then, go to the database.py file, and put your credencials of your MySQL account (user, password), and the database name.
+- To test the application, you can use cURL tool. To use it, you have to download it from the following link: https://curl.se/windows/. Then, extract the downloaded ZIP file, and add the path to the extracted 'curl.exe' file to your system's PATH ENVIRONMENT VARIABLE. the CSV files are in the data file. In your terminal, use the following commands:
+```
+curl -X POST -F "file=@C:\path of the project file\data\departments.csv" http://127.0.0.1:5000/upload_deps
+curl -X POST -F "file=@C:\path of the project file\data\jobs.csv" http://127.0.0.1:5000/upload_jobs
+curl -X POST -F "file=@C:\path of the project file\data\hired_employees.csv" http://127.0.0.1:5000/upload_emp
+```
