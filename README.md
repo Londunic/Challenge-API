@@ -16,7 +16,7 @@ py -m pip install numpy
 py -m pip install pandas 
 ```
 - Download MySQL Server and Connector/Python, you can do this with the following link: https://dev.mysql.com/downloads/mysql/
-- Once you do the previous step, you have to create the database and tables, you can do this with the following code:
+- Once you do the previous step, you have to create the database and tables, you can do this with the following SQL code:
 ```
 CREATE DATABASE challenge_API;
 
@@ -42,3 +42,4 @@ CREATE TABLE employees (
     FOREIGN KEY (job_id) REFERENCES jobs(id)
 );
 ``` 
+- Then, go to the database.py file, and put your credencials of your MySQL account (user, password), and the database name.
