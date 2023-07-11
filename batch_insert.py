@@ -6,9 +6,9 @@ def insert_batch(data,table,value):
 
     # Query
     if (value == "emp"):
-        query = "INSERT INTO "+table+" (id,name,date_time,department_id,job_id) VALUES (%s,%s,%s,%s,%s)"
+        query = "INSERT INTO "+table+" (name,date_time,department_id,job_id) VALUES (%s,%s,%s,%s)"
     else:
-        query = "INSERT INTO "+table+" (id,name) VALUES (%s,%s)"
+        query = "INSERT INTO "+table+" (name) VALUES (%s)"
 
     cursor.executemany(query, data)
     connection.commit()

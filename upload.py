@@ -2,6 +2,7 @@ from database import db_connection
 import csv
 import pandas as pd
 import numpy as np
+from dateTransformation import dateModificated
 
 def upload_data(file,table,value):
 
@@ -16,6 +17,9 @@ def upload_data(file,table,value):
 
         #Convert data to Dataframe and change empty to NUll
         df = pd.DataFrame(data,columns=None)
+        if (value == "emp"):
+            #change the date structure
+            df[2] = df[2].apply(dateModificated)
         df = df.applymap(lambda x: None if x == '' else x)
         df = df[df[1].notnull()]
         df = df.drop(df.columns[0], axis=1)
