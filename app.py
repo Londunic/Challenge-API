@@ -39,13 +39,18 @@ def upload_emp():
     return upload_data(file,"employees","emp")
 
 
-@app.route('/batch-insert', methods=['POST'])
+@app.route('/batch-insert-deps', methods=['POST'])
 def batch_insert():
-    # Implementation for batch insertion of transactions
-    data = request.json
-    # Process the batch insertion data
+    # Check if the request has a valid JSON payload
+    if not request.is_json:
+        return 'Invalid request payload', 400
 
-    return 'Batch insertion completed'
+    try:
+        data = request.get_json()
+        ##
+
+    except Exception as e:
+        return str(e), 500
 
 @app.route('/')
 def hello():
