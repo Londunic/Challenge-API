@@ -75,5 +75,3 @@ def insert_batch(dataJson,table,value):
     connection.close()
 
     return 'Batch transactions inserted successfully', 200
-    
-    #return data
