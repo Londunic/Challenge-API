@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify
-from upload import upload_data
-from batch_insert import insert_batch
+from flask import Flask, request, jsonify, render_template
+from upload import upload_data,insert_batch
 from queries import result_query
 
 app = Flask(__name__)
@@ -43,44 +42,59 @@ def upload_emp():
 
 @app.route('/batch_insert_deps', methods=['POST'])
 def batch_insert_deps():
-    # Check if the request has a valid JSON payload
-    if not request.is_json:
-        return 'Invalid request payload', 400
-
     try:
-        data = request.get_json()
+        data = request.json
+        if not isinstance(data, list):
+            return "A list of transactions was expected", 400
+
+        if len(data) == 0:
+            return "The transaction list is empty", 400
+
+        if len(data) >= 1000:
+            return "The list has more than 1000 transactions",400
+
         return insert_batch(data,"departments","other")
 
     except Exception as e:
-        return str(e), 500
+        return "Error entering transactions :" + str(e), 500
 
 
 @app.route('/batch_insert_jobs', methods=['POST'])
 def batch_insert_jobs():
-    # Check if the request has a valid JSON payload
-    if not request.is_json:
-        return 'Invalid request payload', 400
-
     try:
-        data = request.get_json()
+        data = request.json
+        if not isinstance(data, list):
+            return "A list of transactions was expected", 400
+
+        if len(data) == 0:
+            return "The transaction list is empty", 400
+        
+        if len(data) >= 1000:
+            return "The list has more than 1000 transactions",400
+
         return insert_batch(data,"jobs","other")
 
     except Exception as e:
-        return str(e), 500
+        return "Error entering transactions :" + str(e), 500
 
 
 @app.route('/batch_insert_emp', methods=['POST'])
 def batch_insert_emp():
-    # Check if the request has a valid JSON payload
-    if not request.is_json:
-        return 'Invalid request payload', 400
-
     try:
-        data = request.get_json()
+        data = request.json
+        if not isinstance(data, list):
+            return "A list of transactions was expected", 400
+
+        if len(data) == 0:
+            return "The transaction list is empty", 400
+        
+        if len(data) >= 1000:
+            return "The list has more than 1000 transactions",400
+
         return insert_batch(data,"employees","emp")
 
     except Exception as e:
-        return str(e), 500
+        return "Error entering transactions :" + str(e), 500
 
 
 @app.route('/sql_query1')
@@ -103,7 +117,8 @@ def sql_query1():
     ORDER BY
         department, job;"""
     
-    return jsonify(result_query(query)),200
+    results = result_query(query)
+    return render_template('query1.html', result=results)
 
 
 @app.route('/sql_query2')
@@ -131,8 +146,9 @@ def sql_query2():
         )
     ORDER BY
         hired DESC;"""
-    
-    return jsonify(result_query(query)),200
+
+    results = result_query(query)
+    return render_template('query2.html', result=results)
 
 
 @app.route('/')

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Query 2</title>
+    <style>
+        body {
+            margin: 0px; 
+            padding: 20px;
+            font-family: Arial;
+        }
+        h1{
+            color: #BFD732;
+        }
+        th{
+            text-align: center;
+            color: #BFD732;
+        }
+        td{
+            text-align: center;
+            color: #FFFFFF;
+        }
+        div{
+            margin: 0 auto; 
+            padding: 30px; 
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div style='background-color: #666666;'>
+        <h1><center>QUERY 2 - RESULTS</center></h1>    
+    </div>
+    <br></br>
+    <div style='background-color: #666666;'>
+        <table align='center'>
+            <tr>
+                <th>Id</th>
+                <th>Department</th>
+                <th>Hired</th>
+            </tr>
+            {% for row in result %}
+            <tr>
+                <td>{{ row['id'] }}</td>
+                <td>{{ row['department'] }}</td>
+                <td>{{ row['hired'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -1,7 +1,6 @@
 from database import db_connection
 import csv
 import pandas as pd
-import numpy as np
 from dateTransformation import dateModificated
 
 def upload_data(file,table,value):
@@ -46,3 +45,35 @@ def upload_data(file,table,value):
 
     except Exception as e:
         return str(e), 500
+    
+
+def insert_batch(dataJson,table,value):
+
+    #Data format transformation
+    data = []
+    for row in dataJson:
+        if (value == "emp"):
+            aux = [row["name"],row["date_time"],row["department_id"],row["job_id"]]
+        else:
+            aux = [row["name"]]
+        data.append(aux)
+    
+    # DB Connection
+    connection = db_connection()
+    cursor = connection.cursor()
+
+    # Query
+    if (value == "emp"):
+        query = "INSERT INTO "+table+" (name,date_time,department_id,job_id) VALUES (%s,%s,%s,%s)"
+    else:
+        query = "INSERT INTO "+table+" (name) VALUES (%s)"
+
+    cursor.executemany(query, data)
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return 'Batch transactions inserted successfully', 200
+    
+    #return data
