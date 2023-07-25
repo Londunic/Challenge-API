@@ -56,6 +56,12 @@ curl -X POST -F "file=@C:\path of the project file\data\departments.csv" http://
 curl -X POST -F "file=@C:\path of the project file\data\jobs.csv" http://127.0.0.1:5000/upload_jobs
 curl -X POST -F "file=@C:\path of the project file\data\hired_employees.csv" http://127.0.0.1:5000/upload_emp
 ```
+- To insert batch transactions, the API do this with json files. These files are located in the data file too. These files content all the transactions. To test this funcionality you have to run the following comands:
+```
+curl -X POST -H "Content-Type: application/json" -d  @C:\path of the project file\data\deps.json http://localhost:5000/batch_insert_deps
+curl -X POST -H "Content-Type: application/json" -d  @C:\path of the project file\data\hired-emp.json http://localhost:5000/batch_insert_emp
+curl -X POST -H "Content-Type: application/json" -d  @C:\path of the project file\data\jobs.json http://localhost:5000/batch_insert_jobs
+``` 
 
 ## SQL
 
